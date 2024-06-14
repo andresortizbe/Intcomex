@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="Paginacion" doc:id="739024f6-898e-4d22-9fec-08e9631ba3d3" >
+		<db:select doc:name="Select" doc:id="5dfb7459-863b-4e4e-9821-81c4d6bf2bbc" config-ref="Database_Config" >
+			<db:sql ><![CDATA[SELECT * FROM Products]]></db:sql>
+		</db:select>
+		<logger level="INFO" doc:name="Logger1" doc:id="686528fa-082a-42af-8a02-ad70e2c8c6be" message="get:\listar\productos:intcomexintegration-config" />
+		<ee:transform doc:name="Transform Message" doc:id="51d1ccc7-df28-4ce1-8347-1a1d21eab1b3" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+import * from dw::core::Arrays
+output application/json
+
+var totalProd= sizeOf(payload)
+var limit= vars.limit as Number
+var Page= vars.page as Number
+var totalPages=totalProd / limit
+var inic = (Page-1) * limit
+var fin = inic + (limit-1)
+var pageArr = slice(payload, (inic-1), (fin))
+---
+{
+	totalproductos:totalProd,
+	totalpaginas: totalPages,
+	paginaSolicitada: pageArr
+}
+
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<sub-flow name="CrearProductos" doc:id="03a81092-28dd-4e1c-811b-01e5f527aedc" >
+		<async doc:name="Async" doc:id="68900ad1-14ce-4226-a2f3-7605745c2924" >
+			<db:stored-procedure doc:name="Llamado SP Creacion Productos" doc:id="de9bc762-20bf-4b02-890d-254b49daf9cf" config-ref="Database_Config" >
+				<db:sql ><![CDATA[CALL InsertarProductos(100000);]]></db:sql>
+			</db:stored-procedure>
+		</async>
+		<ee:transform doc:name="Response" doc:id="dd3f1bcf-8637-442b-abbc-41f2f28cb556" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	status: 200,
+	response:"inicio de proceso de Creacion de Registros"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<flow name="CrearCat" doc:id="d88b4de1-e6d0-401d-8db0-b8c9964510ea" >
+		<db:insert doc:name="Insert" doc:id="c75a17b7-611e-4819-9781-bfbaaefe1a84" config-ref="Database_Config" >
+			<db:sql ><![CDATA[INSERT INTO Categories (CategoryName, CategoryImageUrl)
+VALUES (:name, :url);]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	name:attributes.queryParams.name, url:attributes.queryParams.url
+	}]]]></db:input-parameters>
+		</db:insert>
+		<ee:transform doc:name="Response" doc:id="48adbc6e-c555-4f0d-b1b0-d56591de9e2e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status:200,
+	Response:"Creacion De Categoria Exitosa"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="ProductoXid" doc:id="66b34929-b2ae-4ccc-8aca-ac7f19f7a1c4" >
+		<flow-ref doc:name="QueryDBProducto" doc:id="7213d43e-1fe7-4b67-b565-84bad8bba24f" name="ConsultaProducto"/>
+		<set-variable value="#[payload]" doc:name="DataProducto" doc:id="bd6cf430-3f0b-43c8-bc11-0508b0e882b9" variableName="producto"/>
+		<flow-ref doc:name="QueryDBCategoria" doc:id="a0e3deb0-21b5-40c9-8c87-2a816c66a634" name="ConsultaUrl"/>
+		<ee:transform doc:name="Transform Message" doc:id="cba44063-5d58-46b8-a918-6b629a165643" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Producto:vars.producto.ProductName[0],
+	IdProducto:vars.producto.ProductID[0],
+	Categoria:payload[0].CategoryName,
+	UrlImagen:payload[0].CategoryImageUrl
+	
+}
+]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+			</ee:variables>
+		</ee:transform>
+	</flow>
+	<sub-flow name="ConsultaUrl" doc:id="18d36c7d-3906-4b76-9680-75a932d1a305" >
+		<db:select doc:name="QueryDBCategoria" doc:id="b8dac40e-d775-405a-8973-f732b1343299" config-ref="Database_Config" >
+			<db:sql ><![CDATA[SELECT * FROM Categories where CategoryID = :catId]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+catId: payload[0].CategoryID
+
+}]]]></db:input-parameters>
+		</db:select>
+	</sub-flow>
+	<sub-flow name="ConsultaProducto" doc:id="67defca9-b834-47d5-81b1-5b7c36eb8473" >
+		<db:select doc:name="QueryDBProducto" doc:id="556a2d93-9c3d-4917-b264-256e3bbf99d7" config-ref="Database_Config" >
+			<db:sql ><![CDATA[select * from Products where ProductID = :prodId]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+prodId: attributes.queryParams.prodId
+
+}]]]></db:input-parameters>
+		</db:select>
+	</sub-flow>
+</mule>

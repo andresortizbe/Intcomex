@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_18d36c7d_3906_4b76_9680_75a932d1a305_Output_Payload = Array<{| CategoryImageUrl: String |}>
+

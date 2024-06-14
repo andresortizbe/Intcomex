@@ -1,0 +1,9 @@
+api:
+  version: "1.0"
+  id: "19616658"
+database:    
+  host: "viaduct.proxy.rlwy.net"
+  port: "35733"
+  user: "root"
+  password: "PdKnLujgRcQIYzHmXIaqJCorbdRMUSGA"
+  schema: "railway"
