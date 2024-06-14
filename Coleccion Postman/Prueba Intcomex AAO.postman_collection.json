@@ -1,0 +1,331 @@
+{
+	"info": {
+		"_postman_id": "e0f2ac2f-b424-47d0-8fc5-545059f07937",
+		"name": "Prueba Intcomex AAO",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36332626"
+	},
+	"item": [
+		{
+			"name": "LocalHost",
+			"item": [
+				{
+					"name": "Listar Productos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/listar/productos?page=10&limit=50",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"listar",
+								"productos"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "10"
+								},
+								{
+									"key": "limit",
+									"value": "50"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Producto X Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/listar/productoID?prodId=214376",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"listar",
+								"productoID"
+							],
+							"query": [
+								{
+									"key": "prodId",
+									"value": "214376"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CrearCategoria",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/crear/categoria?name=cable&url=https://media.istockphoto.com/id/1365566381/es/foto/cable-de-cobre-utilizado-en-instalaci%C3%B3n-el%C3%A9ctrica.jpg?s=2048x2048%26w=is%26k=20%26c=ECoQqkfklkKLFOSImW8Gpcfgq7AU4PhqNJZ1vieI2Vc=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"crear",
+								"categoria"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "cable"
+								},
+								{
+									"key": "url",
+									"value": "https://media.istockphoto.com/id/1365566381/es/foto/cable-de-cobre-utilizado-en-instalaci%C3%B3n-el%C3%A9ctrica.jpg?s=2048x2048%26w=is%26k=20%26c=ECoQqkfklkKLFOSImW8Gpcfgq7AU4PhqNJZ1vieI2Vc="
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CrearProducto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/crear/producto",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"crear",
+								"producto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/ping",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"ping"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cloud",
+			"item": [
+				{
+					"name": "Listar Productos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://intcomex-prueba-oqac94.5sc6y6-3.usa-e2.cloudhub.io/api/listar/productos?page=10&limit=50",
+							"protocol": "https",
+							"host": [
+								"intcomex-prueba-oqac94",
+								"5sc6y6-3",
+								"usa-e2",
+								"cloudhub",
+								"io"
+							],
+							"path": [
+								"api",
+								"listar",
+								"productos"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "10"
+								},
+								{
+									"key": "limit",
+									"value": "50"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CrearCategoria",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://intcomex-oqac94.5sc6y6-3.usa-e2.cloudhub.io/api/crear/categoria?name=cable&url=https://media.istockphoto.com/id/1365566381/es/foto/cable-de-cobre-utilizado-en-instalaci%C3%B3n-el%C3%A9ctrica.jpg?s=2048x2048%26w=is%26k=20%26c=ECoQqkfklkKLFOSImW8Gpcfgq7AU4PhqNJZ1vieI2Vc=",
+							"protocol": "https",
+							"host": [
+								"intcomex-oqac94",
+								"5sc6y6-3",
+								"usa-e2",
+								"cloudhub",
+								"io"
+							],
+							"path": [
+								"api",
+								"crear",
+								"categoria"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "cable"
+								},
+								{
+									"key": "url",
+									"value": "https://media.istockphoto.com/id/1365566381/es/foto/cable-de-cobre-utilizado-en-instalaci%C3%B3n-el%C3%A9ctrica.jpg?s=2048x2048%26w=is%26k=20%26c=ECoQqkfklkKLFOSImW8Gpcfgq7AU4PhqNJZ1vieI2Vc="
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ProductoXId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://intcomex-oqac94.5sc6y6-3.usa-e2.cloudhub.io/api/listar/productoID?prodId=214376",
+							"protocol": "https",
+							"host": [
+								"intcomex-oqac94",
+								"5sc6y6-3",
+								"usa-e2",
+								"cloudhub",
+								"io"
+							],
+							"path": [
+								"api",
+								"listar",
+								"productoID"
+							],
+							"query": [
+								{
+									"key": "prodId",
+									"value": "214376"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CrearProducto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://intcomex-prueba-oqac94.5sc6y6-3.usa-e2.cloudhub.io/api/crear/producto",
+							"protocol": "https",
+							"host": [
+								"intcomex-prueba-oqac94",
+								"5sc6y6-3",
+								"usa-e2",
+								"cloudhub",
+								"io"
+							],
+							"path": [
+								"api",
+								"crear",
+								"producto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://intcomex-prueba-oqac94.5sc6y6-3.usa-e2.cloudhub.io/api/ping",
+							"protocol": "https",
+							"host": [
+								"intcomex-prueba-oqac94",
+								"5sc6y6-3",
+								"usa-e2",
+								"cloudhub",
+								"io"
+							],
+							"path": [
+								"api",
+								"ping"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
